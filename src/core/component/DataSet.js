@@ -38,15 +38,18 @@ export const SETS = {
             {label: "FieldB", field: "fieldB", type: FIELD_TYPES.NUMBER},
             {label: "FieldC", field: "fieldC", type: FIELD_TYPES.TEXT}]
     },
-    DeliveryOrder: {
-        type: SET_TYPES.SEQUENTIAL_MAP,
-        defaultKey: 1,
+    MapTestSet: {
+        type: SET_TYPES.MAP,
+        defaultKey: "keyOne",
         removeData: true,
         insertData: true,
         copyLastOnInsertion: true,
+        baseElement: {fieldA: undefined, fieldB: undefined},
         columns: [
-            {label: "Level", field: FIELD.MAP_KEY, type: FIELD_TYPES.LABEL, width: 10},
-            {label: "Order", field: "CONTENT_ARRAY", type: FIELD_TYPES.DATA_SET, set: "DeliveryOrderInner"}]
+            {label: "Key", field: FIELD.MAP_KEY, type: FIELD_TYPES.TEXT},
+            {label: "FieldA", field: "fieldA", type: FIELD_TYPES.TEXT},
+            {label: "FieldB", field: "fieldB", type: FIELD_TYPES.TEXT},
+        ]
     },
     DeliveryOrderInner: {
         type: SET_TYPES.ARRAY,
@@ -120,9 +123,7 @@ class DataSet extends BoundComponent {
         if (field === "MAP_KEY") {
             if (this.props.set.type === SET_TYPES.MAP || this.props.set.type === SET_TYPES.SEQUENTIAL_MAP) {
 
-                let exists = Object.keys(this.props.dataSource).find(function (el) {
-                    return String(el) === String(value)
-                });
+                let exists = value in this.props.dataSource;
                 if (!exists) {
                     let keyContent = this.props.dataSource[entryIndex];
                     let elementKey = this.keyMap[entryIndex];
@@ -148,6 +149,20 @@ class DataSet extends BoundComponent {
             this.props.onChangeCallback(entryIndex, this.props.dataSource);
         }
         this.setState({});
+    }
+
+    validateFieldChange(e) {
+        let field = e.target.source.field;
+        let newValue = e.target.value;
+
+        if (field === "MAP_KEY") {
+            if (this.props.set.type === SET_TYPES.MAP || this.props.set.type === SET_TYPES.SEQUENTIAL_MAP) {
+                if (newValue in this.props.dataSource) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     handleRemoveElement(e) {
@@ -444,31 +459,43 @@ class DataSet extends BoundComponent {
 
             let column;
             let source = {elementId: elementId, field: columnProps.field};
-            let value = ObjectUtils.getValue(elementData, columnProps.field);
-            if (columnProps.field === "MAP_KEY") {
+
+            let value = elementData;
+            let property = columnProps.field;
+
+            if (columnProps.field === FIELD.MAP_KEY) {
                 value = elementId;
-            } else if (columnProps.field.indexOf("CONTENT") >= 0) {
-                value = elementData;
+            }
+            if (columnProps.field === FIELD.MAP_KEY ||
+                columnProps.field === FIELD.CONTENT_TEXT ||
+                columnProps.field === FIELD.CONTENT_ARRAY ||
+                columnProps.field === FIELD.CONTENT) {
+                property = undefined;
             }
 
             switch (columnProps.type) {
                 case FIELD_TYPES.LABEL:
+                    value = ObjectUtils.getValue(elementData, columnProps.field);
                     column = <label>{value}</label>;
                     break;
                 case FIELD_TYPES.TEXT:
                     column = <InputText id={"el-" + columnProps.field + "-" + elementId}
                                         ref={"el-" + columnProps.field + "-" + elementId}
                                         source={source}
-                                        entry={elementData}
-                                        property={columnProps.field}
+                                        entry={value}
+                                        property={property}
+                                        applyOnBlur={false}
+                                        validateChange={self.validateFieldChange}
                                         onChange={self.handleChangeElementField}/>;
                     break;
                 case FIELD_TYPES.NUMBER:
                     column = <InputNumber id={"el-" + columnProps.field + "-" + elementId}
                                           ref={"el-" + columnProps.field + "-" + elementId}
                                           source={source}
-                                          entry={elementData}
-                                          property={columnProps.field}
+                                          entry={value}
+                                          property={property}
+                                          applyOnBlur={true}
+                                          validateChange={self.validateFieldChange}
                                           onChange={self.handleChangeElementField}/>;
                     break;
                 // case FieldTypes.PAIR:

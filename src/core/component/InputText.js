@@ -9,12 +9,7 @@ class InputText extends AbstractInput {
     }
 
     render() {
-        let inputProps = {
-            className:"input",
-            type: "text",
-            value: this.state.value,
-            onChange: this.handleOnChange,
-        };
+        let inputProps = Object.assign(this.getBaseProps(), {type: "text"});
         if (this.props.className) {
             inputProps.className += " " + this.props.className;
         }

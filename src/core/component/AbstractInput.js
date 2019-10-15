@@ -12,22 +12,65 @@ class AbstractInput extends BoundComponent {
         };
 
         this.handleOnChange = this.handleOnChange.bind(this);
+        this.effectiveChangeValue = this.effectiveChangeValue.bind(this);
+        this.handleOnBlur = this.handleOnBlur.bind(this);
+        this.getBaseProps = this.getBaseProps.bind(this);
+        this.getInputValue = this.getInputValue.bind(this);
     }
 
     handleOnChange(e) {
-        if (this.props.property) {
-            ObjectUtils.setValue(this.props.entry, this.props.property, e.target.value);
-        }
-        this.setState({value: e.target.value});
-        if (this.props.onChange) {
-            this.props.onChange({target: Object.assign(e.target, {id: this.props.id, source: this.props.source, value: e.target.value})});
+        let newValue = e.target.value;
+        if (!this.props.applyOnBlur) {
+            this.effectiveChangeValue(newValue);
+        } else {
+            this.setState({tmpValue: newValue});
         }
     }
+
+    handleOnBlur(e) {
+        console.log(e);
+        if (this.props.applyOnBlur) {
+            this.effectiveChangeValue(this.state.tmpValue);
+        }
+    }
+
+    effectiveChangeValue(value) {
+        let newValueEvent = {target: {id: this.props.id, source: this.props.source, value: value}};
+
+        if (this.props.validateChange && !this.props.validateChange(newValueEvent)) {
+            this.setState({tmpValue: undefined});
+            return;
+        }
+
+        if (this.props.property) {
+            ObjectUtils.setValue(this.props.entry, this.props.property, value);
+        }
+        this.setState({value: value, tmpValue: undefined});
+        if (this.props.onChange) {
+            this.props.onChange(newValueEvent);
+        }
+    }
+
+    getBaseProps() {
+        return ({
+            className:"input",
+            value: this.getInputValue(),
+            onChange: this.handleOnChange,
+            onblur: this.handleOnBlur
+        });
+    }
+
+    getInputValue() {
+        return this.state.tmpValue ? this.state.tmpValue : this.state.value;
+    }
+
 }
 
 AbstractInput.propTypes = {
     property: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    validateChange: PropTypes.func,
+    applyOnBlur: PropTypes.bool
 };
 
 export default AbstractInput;

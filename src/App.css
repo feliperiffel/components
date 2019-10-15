@@ -1,22 +1,45 @@
-.App {
-  text-align: center;
+footer {
+  border-top: 1px solid black;
+  height: 50px;
 }
 
-.App-logo {
-  height: 40vmin;
+header {
+  border-bottom: 1px solid black;
+  height: 100px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+switch > .columns {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
 }
 
-.App-link {
-  color: #09d3ac;
+#app-content-container {
+  z-index: 2;
+  position: absolute;
+  margin-left: 40px;
 }
+
+/*SCROLL BAR STYLE*/
+.scroll_bar {
+  overflow-y: auto;
+}
+.scroll_bar::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  background-color: white;
+}
+.scroll_bar::-webkit-scrollbar
+{
+  width: 7px;
+  height: 7px;
+  background-color: white;
+}
+.scroll_bar::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #E8E8E8;
+}
+/*----------------*/

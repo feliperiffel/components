@@ -1,0 +1,47 @@
+nav {
+    z-index: 100;
+    width: 40px;
+    position: absolute;
+    float: left;
+    overflow: hidden;
+    background-color: white;
+    border-right: 1px solid black;
+    -webkit-transition: width 0.5s; /* Safari */
+    transition: width 0.5s;
+}
+
+nav.open {
+    width: 200px;
+}
+
+nav > span {
+    display: block;
+    width: 100%;
+    height: 30px;
+    overflow: hidden;
+}
+
+nav > span > a {
+    font-family: "Consolas";
+    height: 28px;
+    color: black;
+    font-size: 17px;
+    padding-top: 3px;
+    padding-left: 7px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    cursor: pointer;
+}
+nav > span > a:hover,
+nav > span > a:focus,
+nav > span > a.selected{
+    /*background-color: #313131!important;*/
+    color: #5D6D7E!important;
+    background-image: none;
+    text-decoration: none;
+}
+
+nav > span > a > .icon {
+    font-size: 20px!important;
+}

@@ -8,13 +8,12 @@ class InputNumber extends AbstractInput {
         super(props);
     }
 
+    // handleOnBlur(e) {
+    //     console.log(e);
+    // }
+
     render() {
-        let inputProps = {
-            className:"input",
-            type: "number",
-            value: this.state.value,
-            onChange: this.handleOnChange,
-        };
+        let inputProps = Object.assign(this.getBaseProps(), {type: "number"});
         if (this.props.className) {
             inputProps.className += " " + this.props.className;
         }

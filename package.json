@@ -4,10 +4,13 @@
   "private": true,
   "dependencies": {
     "bulma": "^0.7.5",
+    "jquery": "^3.4.1",
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-json-view": "^1.19.1",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0"
   },
   "scripts": {
@@ -30,5 +33,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.11.2"
   }
 }

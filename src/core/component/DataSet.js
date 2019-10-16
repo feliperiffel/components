@@ -474,17 +474,13 @@ class DataSet extends BoundComponent {
             }
 
             switch (columnProps.type) {
-                case FIELD_TYPES.LABEL:
-                    value = ObjectUtils.getValue(elementData, columnProps.field);
-                    column = <label>{value}</label>;
-                    break;
                 case FIELD_TYPES.TEXT:
                     column = <InputText id={"el-" + columnProps.field + "-" + elementId}
                                         ref={"el-" + columnProps.field + "-" + elementId}
                                         source={source}
                                         entry={value}
                                         property={property}
-                                        applyOnBlur={false}
+                                        applyOnBlur={true}
                                         validateChange={self.validateFieldChange}
                                         onChange={self.handleChangeElementField}/>;
                     break;
@@ -497,6 +493,10 @@ class DataSet extends BoundComponent {
                                           applyOnBlur={true}
                                           validateChange={self.validateFieldChange}
                                           onChange={self.handleChangeElementField}/>;
+                    break;
+                default:
+                    value = ObjectUtils.getValue(elementData, columnProps.field);
+                    column = <label>{value}</label>;
                     break;
                 // case FieldTypes.PAIR:
                 //     if (!value) {

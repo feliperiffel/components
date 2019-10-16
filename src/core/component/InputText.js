@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
 
 class InputText extends AbstractInput {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let inputProps = Object.assign(this.getBaseProps(), {type: "text"});
         if (this.props.className) {

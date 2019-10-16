@@ -4,14 +4,6 @@ import PropTypes from 'prop-types';
 
 class InputNumber extends AbstractInput {
 
-    constructor(props) {
-        super(props);
-    }
-
-    // handleOnBlur(e) {
-    //     console.log(e);
-    // }
-
     render() {
         let inputProps = Object.assign(this.getBaseProps(), {type: "number"});
         if (this.props.className) {

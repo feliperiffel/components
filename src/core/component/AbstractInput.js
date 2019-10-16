@@ -38,14 +38,14 @@ class AbstractInput extends BoundComponent {
         let newValueEvent = {target: {id: this.props.id, source: this.props.source, value: value}};
 
         if (this.props.validateChange && !this.props.validateChange(newValueEvent)) {
-            this.setState({tmpValue: undefined});
+            this.setState({tmpValue: this.state.value});
             return;
         }
 
         if (this.props.property) {
             ObjectUtils.setValue(this.props.entry, this.props.property, value);
         }
-        this.setState({value: value, tmpValue: undefined});
+        this.setState({value: value, tmpValue: value});
         if (this.props.onChange) {
             this.props.onChange(newValueEvent);
         }
@@ -56,7 +56,7 @@ class AbstractInput extends BoundComponent {
             className:"input",
             value: this.getInputValue(),
             onChange: this.handleOnChange,
-            onblur: this.handleOnBlur
+            onBlur: this.handleOnBlur
         });
     }
 

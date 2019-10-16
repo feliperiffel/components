@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 class InputNumber extends AbstractInput {
 
     render() {
-        let inputProps = Object.assign(this.getBaseProps(), {type: "number"});
+        let inputProps = Object.assign(this.getBaseProps(), {type: "number", placeholder: "123"});
         if (this.props.className) {
             inputProps.className += " " + this.props.className;
         }

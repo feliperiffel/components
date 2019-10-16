@@ -1,5 +1,5 @@
 
-function getSplittedPath(path) {
+function splitPath(path) {
     if (!(typeof path === 'string')) {
         console.error("Only strings are accepted into path");
         return;
@@ -10,35 +10,35 @@ function getSplittedPath(path) {
 }
 
 function setValue(object, path, value) {
-    let splittedPath = getSplittedPath(path);
+    let pathMembers = splitPath(path);
 
-    if (splittedPath) {
+    if (pathMembers) {
         let pointer = object;
-        while (splittedPath.length > 1) {
-            let currentPath = splittedPath.shift();
+        while (pathMembers.length > 1) {
+            let currentPath = pathMembers.shift();
             pointer = pointer[currentPath];
         }
-        let currentPath = splittedPath.shift();
+        let currentPath = pathMembers.shift();
         pointer[currentPath] = value;
     }
 }
 
 function getValue(object, path) {
-    let splittedPath = getSplittedPath(path);
+    let pathMembers = splitPath(path);
 
-    if (splittedPath) {
+    if (pathMembers) {
         let pointer = object;
-        while (splittedPath.length > 1) {
-            let currentPath = splittedPath.shift();
+        while (pathMembers.length > 1) {
+            let currentPath = pathMembers.shift();
             pointer = pointer[currentPath];
         }
-        let currentPath = splittedPath.shift();
+        let currentPath = pathMembers.shift();
         return pointer[currentPath];
     }
 }
 
 const ObjectUtils = {
-    getSplittedPath: getSplittedPath,
+    splitPath: splitPath,
     setValue: setValue,
     getValue: getValue
 };

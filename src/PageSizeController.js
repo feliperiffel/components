@@ -1,13 +1,21 @@
 import CallbackDispatcher from './core/util/CallbackDispatcher';
 
 class PageSizeController extends CallbackDispatcher {
+
     constructor () {
         super();
+
+        this.size = {width: 0, height: 0};
 
         this.handleWindowResized = this.handleWindowResized.bind(this);
 
         window.addEventListener("resize", this.handleWindowResized);
         document.addEventListener("ready", this.handleWindowResized);
+        this.handleWindowResized();
+    }
+
+    getCurrentPageSize() {
+        return this.size;
     }
 
     handleWindowResized() {
@@ -19,7 +27,8 @@ class PageSizeController extends CallbackDispatcher {
             || document.documentElement.clientHeight
             || document.body.clientHeight;
 
-        this.dispatch({size: {width: newWidth, height: newHeight}});
+        this.size = {width: newWidth, height: newHeight};
+        this.dispatch({size: this.size});
     }
 }
 

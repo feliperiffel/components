@@ -11,16 +11,8 @@ class App extends BoundComponent {
 
     constructor(props) {
         super(props);
-        let width = window.innerWidth
-            || document.documentElement.clientWidth
-            || document.body.clientWidth;
-
-        let height = window.innerHeight
-            || document.documentElement.clientHeight
-            || document.body.clientHeight;
-
         this.state = {
-            size: {width: width, height: height}
+            size:  PageSizeController.getCurrentPageSize()
         }
     }
 
@@ -55,7 +47,7 @@ class App extends BoundComponent {
                      style={{
                          height: (this.state.size.height - 150) + "px"
                      }}>
-                    <AppNav size={this.state.size}/>
+                    <AppNav/>
                     <div id="app-content-container"
                          className="scroll_bar"
                          style={{

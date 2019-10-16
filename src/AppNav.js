@@ -10,10 +10,11 @@ class AppNav extends BoundComponent {
         super(props);
 
         this.navRef = undefined;
+
         this.state = {
             open: false,
             hover: false,
-            size: props.size
+            size:  PageSizeController.getCurrentPageSize()
         }
     }
 
